@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import ci.atos.projet.trainning.commission.message.CreateServicesMontantCommissionFixeMessage;
 import ci.atos.projet.trainning.commission.message.ResponseServicesMontantCommissionFixeMessage;
 import ci.atos.projet.trainning.commission.repository.IServiceRepository;
+import ci.atos.projet.trainning.commission.entities.Commission;
 import ci.atos.projet.trainning.commission.entities.Service;
+import ci.atos.projet.trainning.commission.help.Utilities;
 
 
 
@@ -27,10 +29,13 @@ public class ServicesController {
 		ResponseServicesMontantCommissionFixeMessage _response = new ResponseServicesMontantCommissionFixeMessage();
 		_response.setHasError(true);
 		 try {
+			 Utilities utilitie = new Utilities();
+			Commission commission = utilitie.myGetCommission("fixe");
 		 Service _service = new Service();
 		_service.setDescription(service.getDescription());
 		_service.setMontantFixe(service.getMontantFixe());
 		_service.setNomService(service.getNomService());
+		_service.setTypecommission(commission);
 		//_service.setAdresseWebservice("http://localhost:8080/comission/{serviceId}/{montant}");
 		 Service _createdSrvice = serviceRepository.save(_service);
 		 String adresseWebservice ="http://localhost:8080/comission/getComission/"+ _createdSrvice.getIdService() +"/0";
